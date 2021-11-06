@@ -9,14 +9,17 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("First") {
+        stage("Building") {
             steps{
-                sh 'ssh root@213.139.210.86 hostname'
-            }
+                echo "========== start building ============="
+                dir ('docker') {
+                        sh 'docker build -t nginxmy .'
+                    }
+                }
         }
-        stage("Second") {
+        stage("Starting") {
             steps{
-                sh 'ssh root@213.139.210.86 uptime'
+                sh 'docker run -d nginxmy'
             }
         }
     }
