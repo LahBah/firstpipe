@@ -9,7 +9,7 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("First"){
+        stage("First") {
             steps{
                 sh 'ssh root@213.139.210.86 hostname'
             }
