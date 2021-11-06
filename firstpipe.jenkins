@@ -1,0 +1,18 @@
+#!groovy
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label: 'master'
+    }
+    options {
+        timestamps()
+    }
+    stages {
+        stage("First"){
+            steps{
+                sh 'ssh root@213.139.210.86 hostname'
+            }
+        }
+    }
+}
