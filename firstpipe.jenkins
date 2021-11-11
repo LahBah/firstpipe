@@ -81,7 +81,6 @@ pipeline {
         stage ("push"){
             steps {
                 //docker login?
-                sh 'docker login -u lahbah -p "3nl9W512"'
                 sh "docker push ${LATEST}"
                 sh "docker push ${TRUNK}"
             }
