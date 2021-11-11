@@ -49,7 +49,7 @@ pipeline {
             '
     }
     agent {
-        label 'build' ## ???
+        label 'master' ## ???
     }
     options {
         timestamps()
