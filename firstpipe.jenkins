@@ -2,25 +2,70 @@
 properties([disableConcurrentBuilds()])
 
 pipeline {
+    environment{
+        DOCKERFILE = '
+            FROM alpine:3.13
+            LABEL maintainer="JustAI"
+            ENV ANSIBLE_VERSION 2.10.4
+
+            RUN apk --no-cache add \
+                    sudo \
+                    python3\
+                    py3-pip \
+                    openssl \
+                    ca-certificates \
+                    sshpass \
+                    openssh-client \
+                    rsync \
+                    git && \
+                apk --no-cache add --virtual build-dependencies \
+                    python3-dev \
+                    libffi-dev \
+                    musl-dev \
+                    gcc \
+                    cargo \
+                    openssl-dev \
+                    libressl-dev \
+                    build-base && \
+
+                pip3 install --upgrade pip wheel && \
+                pip3 install --upgrade cryptography cffi && \
+                apk del build-dependencies && \
+                rm -rf /var/cache/apk/* && \
+                rm -rf /root/.cache/pip && \
+                rm -rf /root/.cargo && \
+                mkdir -p /home/justai/ansible && \
+                addgroup -S justai && \
+                adduser -S justai -G justai
+
+
+            RUN pip3 install ansible=="${ANSIBLE_VERSION}"
+
+            WORKDIR /home/justai/ansible
+
+            USER justai
+
+            CMD [ "ansible-playbook", "--version" ]
+            '
+    }
     agent {
-        label 'master'
+        label 'build' ## ???
     }
     options {
         timestamps()
     }
     stages {
-        stage("Building") {
-            steps{
-                echo "========== start building ============="
-                dir ('docker') {
-                        sh 'docker build -t nginxmy .'
-                    }
-                }
-        }
-        stage("Starting") {
-            steps{
-                sh 'docker run -d nginxmy'
+        stage ("create Dockerfile"){
+            steps {
+                sh '''
+                    echo "${DOCKERFILE}" > Dockerfile
+                '''
             }
         }
+        stage ("test"){
+            steps {
+                sh 'cat Dockerfile'
+            }
+        } 
     }
 }
