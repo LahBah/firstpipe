@@ -3,7 +3,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     environment{
-        DOCKERFILE = '
+        DOCKERFILE = '''
             FROM alpine:3.13
             LABEL maintainer="JustAI"
             ENV ANSIBLE_VERSION 2.10.4
@@ -46,7 +46,7 @@ pipeline {
             USER justai
 
             CMD [ "ansible-playbook", "--version" ]
-            '
+            '''
     }
     agent {
         label 'master' ## ???
