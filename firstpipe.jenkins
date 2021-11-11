@@ -48,9 +48,10 @@ pipeline {
 
             CMD [ "ansible-playbook", "--version" ]
             '''
-        // docker-hub.just-ai.com
-        LATEST = "lahbah/components/${COMPONENT_NAME}"
-        TRUNK = "lahbah/components/${COMPONENT_NAME}:trunk-${BUILD_NUMBER}"
+        // docker-hub.just-ai.com/components/${COMPONENT_NAME}
+        // docker-hub.just-ai.com/components/${COMPONENT_NAME}:trunk-${BUILD_NUMBER}"
+        LATEST = "lahbah/ansible"
+        TRUNK = "lahbah/ansible:trunk-${BUILD_NUMBER}"
     }
     agent {
         label 'master'
