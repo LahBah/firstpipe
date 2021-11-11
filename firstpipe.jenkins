@@ -74,7 +74,7 @@ pipeline {
         stage ("build"){
             steps {
                 sh "docker build -t ${LATEST} ."
-                sh "docker tag -t ${LATEST} ${TRUNK}"
+                sh "docker tag ${LATEST} ${TRUNK}"
             }
         }
         stage ("push"){
