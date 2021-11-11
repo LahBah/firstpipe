@@ -1,7 +1,7 @@
 #!groovy
 properties([disableConcurrentBuilds()])
 
-/ Перенос строки в Dockerfile в этом пайплайне именно \\, а не \
+//Перенос строки в Dockerfile в этом пайплайне именно \\, а не \
 pipeline {
     environment{
         DOCKERFILE = '''
