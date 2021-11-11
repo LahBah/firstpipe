@@ -83,6 +83,7 @@ pipeline {
                 sh "docker push ${LATEST}"
                 sh "docker push ${TRUNK}"
             }
+        }
         stage ("delete image from host"){
             steps {
                 sh "docker rmi ${TRUNK}"                
@@ -90,5 +91,4 @@ pipeline {
             }
         }
     }
-}
 }
