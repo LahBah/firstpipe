@@ -48,6 +48,9 @@ pipeline {
 
             CMD [ "ansible-playbook", "--version" ]
             '''
+        // docker-hub.just-ai.com
+        LATEST = "lahbah/components/${COMPONENT_NAME}"
+        TRUNK = "lahbah/components/${COMPONENT_NAME}:trunk-${BUILD_NUMBER}"
     }
     agent {
         label 'master'
@@ -65,13 +68,25 @@ pipeline {
         }
         stage ("test"){
             steps {
-                sh 'cat Dockerfile'
+                sh "cat Dockerfile"
             }
         }
         stage ("build"){
             steps {
-                sh 'docker build -t test .'
+                sh "docker build -t ${LATEST} ."
+                sh "docker tag -t ${LATEST} ${TRUNK}"
             }
-        } 
+        }
+        stage ("push"){
+            steps {
+                //docker login?
+                sh "docker push ${LATEST}"
+                sh "docker push ${TRUNK}"
+            }
+        stage ("delete image from host"){
+            steps {
+                sh "docker rmi ${TRUNK}"                
+                sh "docker rmi ${LATEST}" 
+            }
     }
 }
