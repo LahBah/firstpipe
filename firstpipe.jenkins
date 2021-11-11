@@ -28,14 +28,14 @@ pipeline {
                     libressl-dev \\
                     build-base && \\
 
-                pip3 install --upgrade pip wheel && \
-                pip3 install --upgrade cryptography cffi && \
-                apk del build-dependencies && \
-                rm -rf /var/cache/apk/* && \
-                rm -rf /root/.cache/pip && \
-                rm -rf /root/.cargo && \
-                mkdir -p /home/justai/ansible && \
-                addgroup -S justai && \
+                pip3 install --upgrade pip wheel && \\
+                pip3 install --upgrade cryptography cffi && \\
+                apk del build-dependencies && \\
+                rm -rf /var/cache/apk/* && \\
+                rm -rf /root/.cache/pip && \\
+                rm -rf /root/.cargo && \\
+                mkdir -p /home/justai/ansible && \\
+                addgroup -S justai && \\
                 adduser -S justai -G justai
 
 
